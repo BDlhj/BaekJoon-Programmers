@@ -1,16 +1,13 @@
-num_of_meetings = int(input())
-times = []
-end_time = -1
-count = 0
+import sys
+input = sys.stdin.readline
 
-for _ in range(num_of_meetings):
-    times.append(tuple(map(int, input().split())))
-
+n = int(input())
+times = [list(map(int, input().split())) for _ in range(n)]
 times.sort(key=lambda x: (x[1], x[0]))
+answer = [times[0]]
 
-for i in times:
-    if i[0] >= end_time:
-        count += 1
-        end_time = i[1]
-
-print(count)
+for i in range(1, n):
+    if times[i][0] >= answer[-1][1]:
+        answer.append(times[i])
+    
+print(len(answer))
