@@ -4,20 +4,19 @@ input = sys.stdin.readline
 n = int(input())
 m = int(input())
 s = input().rstrip()
+cur = 0
+p_1_cnt = 0
 answer = 0
 
-p = []
-for i in range(2*n+1):
-    if i % 2 == 0:
-        p.append('I')
+while cur < m - 1:
+    if s[cur:cur+3] == 'IOI':
+        p_1_cnt += 1
+        cur += 2
+        if p_1_cnt == n:
+            answer += 1
+            p_1_cnt -= 1
     else:
-        p.append('O')
-
-p_str = ''.join(p)
-p_len = 2 * n + 1
-
-for i in range(m-p_len+1):
-    if s[i:i+p_len] == p_str:
-        answer += 1
+        p_1_cnt = 0
+        cur += 1
 
 print(answer)
