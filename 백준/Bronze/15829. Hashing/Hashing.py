@@ -11,4 +11,4 @@ hash_value = 0
 for i in range(L):
     hash_value += ((char_num[string[i]] * r ** i) % mod)
 
-print(hash_value)
+print(hash_value % mod)
