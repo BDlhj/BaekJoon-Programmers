@@ -1,45 +1,40 @@
-import sys
-input = sys.stdin.readline
+def chess_cnt(tmp,r,c,r_s,c_s):
+    global min_cnt, cnt, loc
+    if loc > 63:
+        if min_cnt > cnt:
+            min_cnt = cnt
+    else:
+        loc += 1
+        item = chess[r+r_s][c+c_s]
+        if tmp == item:
+            cnt += 1
+            if item == 'B':
+                tmp = 'W'
+            else:
+                tmp = 'B'
+        else:
+            tmp = item
+        if r%2:
+            if c > 0:
+                chess_cnt(tmp,r,c-1,r_s,c_s)
+            else:
+                chess_cnt(tmp,r+1,c,r_s,c_s)
+        else:
+            if c < 7:
+                chess_cnt(tmp,r,c+1,r_s,c_s)
+            else:
+                chess_cnt(tmp,r+1,c,r_s,c_s)
 
-def count_corner_black(board):
-    count = 0
-    for row in range(8):
-        for col in range(8):
-            if row % 2 == 0:
-                if col % 2 == 1 and board[row][col] == 'B':
-                    count += 1
-                elif col % 2 == 0 and board[row][col] == 'W':
-                    count += 1
-            elif row % 1 == 0:
-                if col % 2 == 1 and board[row][col] == 'W':
-                    count += 1
-                elif col % 2 == 0 and board[row][col] == 'B':
-                    count += 1
-    return count
-            
-def count_corner_white(board):
-    count = 0
-    for row in range(8):
-        for col in range(8):
-            if row % 2 == 0:
-                if col % 2 == 1 and board[row][col] == 'W':
-                    count += 1
-                elif col % 2 == 0 and board[row][col] == 'B':
-                    count += 1
-            elif row % 1 == 0:
-                if col % 2 == 1 and board[row][col] == 'B':
-                    count += 1
-                elif col % 2 == 0 and board[row][col] == 'W':
-                    count += 1
-    return count
 
-N, M = map(int, input().split())
-board = [list(input().rstrip()) for _ in range(N)]
 
-answer = sys.maxsize
-for row in range(N-7):
-    for col in range(M-7):
-        new = [r[col:col+8] for r in board[row:row+8]]
-        answer = min(answer, count_corner_black(new), count_corner_white(new))
 
-print(answer)
+N,M = map(int,input().split())
+chess = [input() for _ in range(N)]
+min_cnt = 64
+for i in range(M-7):
+    for j in range(N-7):
+        for k in ['B','W']:
+            cnt = 0
+            loc = 0
+            chess_cnt(k,0,0,j,i)
+print(min_cnt)
